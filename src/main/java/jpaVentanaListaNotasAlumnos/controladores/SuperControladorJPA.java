@@ -27,6 +27,7 @@ public class SuperControladorJPA {
 	
 	
 	//protected, para que las subclases tengan visibilidad sobre este metodo. 
+	//Singleton para que solo haya un EntityManager en el programa
 	protected EntityManager getEntityManager () {
 		if(em == null) {
 			em =  Persistence.createEntityManagerFactory("ventanaListaNotaAlumnos").createEntityManager();
