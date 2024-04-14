@@ -1,3 +1,4 @@
+package jpaVentanaListaNotasAlumnos;
 
 
 import java.awt.EventQueue;

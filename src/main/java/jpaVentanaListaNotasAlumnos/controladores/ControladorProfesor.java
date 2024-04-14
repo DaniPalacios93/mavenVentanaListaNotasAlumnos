@@ -1,6 +1,6 @@
-package controladores;
+package jpaVentanaListaNotasAlumnos.controladores;
 
-import entities.Profesor;
+import jpaVentanaListaNotasAlumnos.entities.Profesor;
 
 public class ControladorProfesor extends SuperControladorJPA {
 	

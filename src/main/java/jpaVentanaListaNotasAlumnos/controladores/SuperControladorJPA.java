@@ -1,11 +1,13 @@
-package controladores;
+package jpaVentanaListaNotasAlumnos.controladores;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-import entities.Entidad;
+import jpaVentanaListaNotasAlumnos.entities.Entidad;
+
+
 
 public class SuperControladorJPA {
 	

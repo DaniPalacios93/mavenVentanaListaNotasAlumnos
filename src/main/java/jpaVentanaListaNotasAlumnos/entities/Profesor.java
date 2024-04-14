@@ -1,4 +1,4 @@
-package entities;
+package jpaVentanaListaNotasAlumnos.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

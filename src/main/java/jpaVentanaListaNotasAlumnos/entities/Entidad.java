@@ -1,4 +1,4 @@
-package entities;
+package jpaVentanaListaNotasAlumnos.entities;
 
 public class Entidad {
 
