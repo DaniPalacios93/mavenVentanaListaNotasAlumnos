@@ -29,7 +29,7 @@ public class Profesor extends Entidad {
 	private byte[] imagen;
 	private String colorFavorito;
 	
-	@OneToMany(mappedBy = "valoracionmateria")
+	@OneToMany(mappedBy = "profesor")
 	private List<ValoracionMateria> notas;
 	
 	

@@ -22,7 +22,7 @@ public class Materia extends Entidad{
 	private String Acronimo;
 	private int curso_id;
 	
-	@OneToMany(mappedBy = "valoracionmateria")
+	@OneToMany(mappedBy = "materia")
 	private List<ValoracionMateria> notas;
 
 	

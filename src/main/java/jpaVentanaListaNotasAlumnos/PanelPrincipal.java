@@ -12,6 +12,7 @@ import com.mysql.cj.Query;
 import jpaVentanaListaNotasAlumnos.controladores.ControladorEstudiante;
 import jpaVentanaListaNotasAlumnos.controladores.ControladorMateria;
 import jpaVentanaListaNotasAlumnos.controladores.ControladorProfesor;
+import jpaVentanaListaNotasAlumnos.controladores.ControladorValoracionMateria;
 import jpaVentanaListaNotasAlumnos.entities.Estudiante;
 import jpaVentanaListaNotasAlumnos.entities.Materia;
 import jpaVentanaListaNotasAlumnos.entities.Profesor;
@@ -65,7 +66,7 @@ public class PanelPrincipal extends JFrame {
 	 */
 	public PanelPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 600, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -144,7 +145,7 @@ public class PanelPrincipal extends JFrame {
 		JButton btnActualizarAlumnado = new JButton("Actualizar alumnado");
 		btnActualizarAlumnado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				actualizarAlumnado();
 			}
 		});
 		GridBagConstraints gbc_btnActualizarAlumnado = new GridBagConstraints();
@@ -202,32 +203,60 @@ public class PanelPrincipal extends JFrame {
 		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
-		JButton btnNewButton_5 = new JButton("New button");
-		GridBagConstraints gbc_btnNewButton_5 = new GridBagConstraints();
-		gbc_btnNewButton_5.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_5.gridx = 0;
-		gbc_btnNewButton_5.gridy = 0;
-		panel_2.add(btnNewButton_5, gbc_btnNewButton_5);
 		
-		JButton btnNewButton_2 = new JButton("New button");
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_2.gridx = 0;
-		gbc_btnNewButton_2.gridy = 1;
-		panel_2.add(btnNewButton_2, gbc_btnNewButton_2);
+		/// BTN ALL LEFT
+		JButton btnAllLeft = new JButton("<<");
+		btnAllLeft.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				allLeft();
+			}
+		});
+		GridBagConstraints gbc_btnAllLeft = new GridBagConstraints();
+		gbc_btnAllLeft.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAllLeft.gridx = 0;
+		gbc_btnAllLeft.gridy = 0;
+		panel_2.add(btnAllLeft, gbc_btnAllLeft);
 		
-		JButton btnNewButton_3 = new JButton("New button");
-		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_3.gridx = 0;
-		gbc_btnNewButton_3.gridy = 2;
-		panel_2.add(btnNewButton_3, gbc_btnNewButton_3);
 		
-		JButton btnNewButton_4 = new JButton("New button");
-		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
-		gbc_btnNewButton_4.gridx = 0;
-		gbc_btnNewButton_4.gridy = 3;
-		panel_2.add(btnNewButton_4, gbc_btnNewButton_4);
+		/// BTN ONE LEFT
+		JButton btnOneLeft = new JButton("<");
+		btnOneLeft.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedToTheLeft();
+			}
+		});
+		GridBagConstraints gbc_btnOneLeft = new GridBagConstraints();
+		gbc_btnOneLeft.insets = new Insets(0, 0, 5, 0);
+		gbc_btnOneLeft.gridx = 0;
+		gbc_btnOneLeft.gridy = 1;
+		panel_2.add(btnOneLeft, gbc_btnOneLeft);
+		
+		
+		/// BTN ONE RIGHT
+		JButton btnOneRight = new JButton(">");
+		btnOneRight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedToTheRight();
+			}
+		});
+		GridBagConstraints gbc_btnOneRight = new GridBagConstraints();
+		gbc_btnOneRight.insets = new Insets(0, 0, 5, 0);
+		gbc_btnOneRight.gridx = 0;
+		gbc_btnOneRight.gridy = 2;
+		panel_2.add(btnOneRight, gbc_btnOneRight);
+		
+		
+		/// BTN ALL RIGHT
+		JButton btnAllRight = new JButton(">>");
+		btnAllRight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				allRight();
+			}
+		});
+		GridBagConstraints gbc_btnAllRight = new GridBagConstraints();
+		gbc_btnAllRight.gridx = 0;
+		gbc_btnAllRight.gridy = 3;
+		panel_2.add(btnAllRight, gbc_btnAllRight);
 		
 		jlistAlumnadoSeleccionado = new JList<Estudiante>(listModelAlumnadoSeleccionado);
 		GridBagConstraints gbc_jlistAlumnadoSeleccionado = new GridBagConstraints();
@@ -236,7 +265,7 @@ public class PanelPrincipal extends JFrame {
 		gbc_jlistAlumnadoSeleccionado.gridy = 1;
 		panel_1.add(jlistAlumnadoSeleccionado, gbc_jlistAlumnadoSeleccionado);
 		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Guardar las notas de los alumnos seleccionados");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 2;
@@ -282,20 +311,107 @@ public class PanelPrincipal extends JFrame {
 		
 	}
 	
-	
+	/**
+	 * 
+	 */
 	private void actualizarAlumnado() {
+		
+		Materia materiaSeleccionada = (Materia) jcbMateria.getSelectedItem();
+		Profesor profesorSelecionado = (Profesor) jcbProfesor.getSelectedItem();
+		int notaSelecionada = (Integer) jcbNota.getSelectedItem();
 		
 		List<Estudiante> estudiantes = (List<Estudiante>) ControladorEstudiante.getInstance().findAll();
 		
+
 		for(Estudiante e : estudiantes) {
 			
-		
-			
+			if(ControladorValoracionMateria.getInsctance().existeEstudianteConValoracion(
+					materiaSeleccionada, profesorSelecionado, e, notaSelecionada)){
+				
+				this.listModelAlumnadoSeleccionado.addElement(e);
+			}
+			else {
+				this.listModelAlumnadoNoSeleccionado.addElement(e);
+			}
 		}
 	}
 	
 	
 	
+	
+	/**
+	 * 
+	 */
+	private void allLeft() {
+		
+		 if(!listModelAlumnadoSeleccionado.isEmpty()) {
+			 
+			for(int i = 0; i < listModelAlumnadoSeleccionado.getSize(); i++) {
+				
+				listModelAlumnadoNoSeleccionado.addElement(listModelAlumnadoSeleccionado.getElementAt(i));
+			}
+			 
+			 listModelAlumnadoSeleccionado.clear();
+		 }
+		
+	}
+	
+	
+	
+	
+	/**
+	 * 
+	 */
+	private void allRight() {
+		
+		 if(!listModelAlumnadoNoSeleccionado.isEmpty()) {
+			 
+			for(int i = 0; i < listModelAlumnadoNoSeleccionado.getSize(); i++) {
+				
+				listModelAlumnadoSeleccionado.addElement(listModelAlumnadoNoSeleccionado.getElementAt(i));
+			}
+			 
+			 listModelAlumnadoNoSeleccionado.clear();
+		 }
+		
+	}
+	
+	/**
+	 * 
+	 */
+	private void selectedToTheRight() {
+		
+		if(!listModelAlumnadoNoSeleccionado.isEmpty()) {
+			
+			for(int i= this.jlistAlumnadoNoSeleccionado.getSelectedIndices().length - 1; i >= 0; i--) {
+				
+				this.listModelAlumnadoSeleccionado.addElement(listModelAlumnadoNoSeleccionado.getElementAt(
+						this.jlistAlumnadoNoSeleccionado.getSelectedIndices()[i]));
+				
+				this.listModelAlumnadoNoSeleccionado.removeElementAt(this.jlistAlumnadoNoSeleccionado.getSelectedIndices()[i]);
+				
+			}
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	private void selectedToTheLeft() {
+		
+		if(!listModelAlumnadoSeleccionado.isEmpty()) {
+			
+			for(int i= this.jlistAlumnadoSeleccionado.getSelectedIndices().length - 1; i >= 0; i--) {
+				
+				this.listModelAlumnadoNoSeleccionado.addElement(listModelAlumnadoSeleccionado.getElementAt(
+						this.jlistAlumnadoSeleccionado.getSelectedIndices()[i]));
+				
+				this.listModelAlumnadoSeleccionado.removeElementAt(this.jlistAlumnadoSeleccionado.getSelectedIndices()[i]);
+				
+			}
+		}
+	}
 	
 	
 	

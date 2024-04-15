@@ -1,5 +1,6 @@
 package jpaVentanaListaNotasAlumnos.entities;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -27,7 +28,7 @@ public class Estudiante extends Entidad {
 	private byte[] imagen;
 	private String colorFavorito;
 	
-	@OneToMany(mappedBy = "valoracionmateria")
+	@OneToMany(mappedBy = "estudiante")
 	private List<ValoracionMateria> notas;
 	
 	
@@ -45,6 +46,13 @@ public class Estudiante extends Entidad {
 	public int getId() {
 		return id;
 	}
+
+	@Override
+	public String toString() {
+		return nombre + " " + apellido1 + " " + apellido2;
+	}
+
+
 
 	public void setId(int id) {
 		this.id = id;
