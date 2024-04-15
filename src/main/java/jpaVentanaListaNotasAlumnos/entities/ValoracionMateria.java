@@ -20,8 +20,67 @@ public class ValoracionMateria {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idProfesor")
 	private Profesor profesor;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idEstudiante")
 	private Estudiante estudiante;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idMateria")
 	private Materia materia;
+	
 	private float valoracion;
+	
+	
+	// CONSTRUCTORES
+	
+	public ValoracionMateria() {
+		super();
+	}
+	
+	
+	// GETTERS & SETTERS
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Profesor getProfesor() {
+		return profesor;
+	}
+
+	public void setProfesor(Profesor profesor) {
+		this.profesor = profesor;
+	}
+
+	public Estudiante getEstudiante() {
+		return estudiante;
+	}
+
+	public void setEstudiante(Estudiante estudiante) {
+		this.estudiante = estudiante;
+	}
+
+	public Materia getMateria() {
+		return materia;
+	}
+
+	public void setMateria(Materia materia) {
+		this.materia = materia;
+	}
+
+	public float getValoracion() {
+		return valoracion;
+	}
+
+	public void setValoracion(float valoracion) {
+		this.valoracion = valoracion;
+	}
+
 
 }

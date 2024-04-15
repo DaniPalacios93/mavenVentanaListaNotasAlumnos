@@ -37,17 +37,18 @@ public class SuperControladorJPA {
 	
 	/**
 	 * Esto devuelve una lista de cualquier objeto que extienda de entidad
+	 * COmo a la query le metemos como segundo argumento el "tipoEntidad" la lista resiltante sera de ese tipo.
 	 * @return
 	 */
-	private List<? extends Entidad> findAll (){
-		return (List<Entidad>) getEntityManager().createNativeQuery("SELECT * FROM " + this.nombreTabla, this.tipoEntidad).getResultList();
+	public List<? extends Entidad> findAll (){
+		return getEntityManager().createNativeQuery("SELECT * FROM " + this.nombreTabla, this.tipoEntidad).getResultList();
 	}
 	
 	/**
 	 * 
 	 * @param e
 	 */
-	private void update (Entidad e) {
+	protected void update (Entidad e) {
 		EntityManager em = getEntityManager();
 		
 		em.getTransaction().begin();

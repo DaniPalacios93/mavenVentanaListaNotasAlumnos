@@ -1,15 +1,20 @@
 package jpaVentanaListaNotasAlumnos.entities;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "profesor")
-public class Profesor {
+public class Profesor extends Entidad {
 	
+	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -24,6 +29,8 @@ public class Profesor {
 	private byte[] imagen;
 	private String colorFavorito;
 	
+	@OneToMany(mappedBy = "valoracionmateria")
+	private List<ValoracionMateria> notas;
 	
 	
 	
@@ -36,6 +43,11 @@ public class Profesor {
 
 	
 	// GETTERS & SETTERS
+	
+	@Override
+	public String toString() {
+		return nombre + " " + apellido1 + " " + apellido2;
+	}
 	
 	public int getId() {
 		return id;

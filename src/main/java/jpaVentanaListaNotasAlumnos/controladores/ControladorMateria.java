@@ -15,9 +15,14 @@ public class ControladorMateria extends SuperControladorJPA {
 	
 	
 	public static ControladorMateria getInstance() {
+		
 		if(instance == null) {
 			instance = new ControladorMateria();
 		}
 		return instance;
 	}
+	
+	
+	
+
 }
