@@ -1,5 +1,7 @@
 package jpaVentanaListaNotasAlumnos.entities;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -30,10 +32,11 @@ public class ValoracionMateria extends Entidad{
 	private Materia materia;
 	
 	private float valoracion;
+	private Date fecha;
 	
 	
 	// CONSTRUCTORES
-	
+
 	public ValoracionMateria() {
 		super();
 	}
@@ -41,6 +44,13 @@ public class ValoracionMateria extends Entidad{
 	
 	// GETTERS & SETTERS
 	
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
 
 	public int getId() {
 		return id;

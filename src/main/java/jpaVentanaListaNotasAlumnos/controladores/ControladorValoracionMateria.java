@@ -30,7 +30,6 @@ private static ControladorValoracionMateria instance = null;
 		return instance;
 	}
 	
-	
 	/*
 	 * 
 	 */
@@ -48,7 +47,6 @@ private static ControladorValoracionMateria instance = null;
 		return true;
 	}
 	
-	
 	/*
 	 * 
 	 */
@@ -65,10 +63,6 @@ private static ControladorValoracionMateria instance = null;
 		
 		return v.get(0);
 	}
-
-	
-
-	
 	
 	
 }

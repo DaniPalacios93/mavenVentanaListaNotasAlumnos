@@ -1,13 +1,10 @@
 package jpaVentanaListaNotasAlumnos;
 
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.mysql.cj.Query;
 
 import jpaVentanaListaNotasAlumnos.controladores.ControladorEstudiante;
 import jpaVentanaListaNotasAlumnos.controladores.ControladorMateria;
@@ -24,13 +21,19 @@ import java.awt.GridBagConstraints;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Insets;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
+import javax.swing.JFormattedTextField;
 
 public class PanelPrincipal extends JFrame {
 
@@ -46,6 +49,7 @@ public class PanelPrincipal extends JFrame {
 	private JComboBox<Materia> jcbMateria;
 	private JComboBox<Profesor> jcbProfesor;
 	private JComboBox<Integer> jcbNota;
+	private JFormattedTextField jftfFecha;
 	private JList<Estudiante> jlistAlumnadoNoSeleccionado;
 	private	DefaultListModel<Estudiante> listModelAlumnadoNoSeleccionado = new DefaultListModel<Estudiante>();
 	private JList<Estudiante> jlistAlumnadoSeleccionado;
@@ -75,7 +79,7 @@ public class PanelPrincipal extends JFrame {
 	 */
 	public PanelPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 400);
+		setBounds(100, 100, 591, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -95,10 +99,10 @@ public class PanelPrincipal extends JFrame {
 		gbc_panel.gridy = 0;
 		contentPane.add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{1, 0, 1, 1};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JLabel lblNewLabel = new JLabel("Materia: ");
@@ -111,6 +115,7 @@ public class PanelPrincipal extends JFrame {
 		
 		jcbMateria = new JComboBox<Materia>();
 		GridBagConstraints gbc_jcbMateria = new GridBagConstraints();
+		gbc_jcbMateria.gridwidth = 2;
 		gbc_jcbMateria.insets = new Insets(0, 0, 5, 0);
 		gbc_jcbMateria.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jcbMateria.gridx = 1;
@@ -127,6 +132,7 @@ public class PanelPrincipal extends JFrame {
 		
 		jcbProfesor = new JComboBox<Profesor>();
 		GridBagConstraints gbc_jcbProfesor = new GridBagConstraints();
+		gbc_jcbProfesor.gridwidth = 2;
 		gbc_jcbProfesor.insets = new Insets(0, 0, 5, 0);
 		gbc_jcbProfesor.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jcbProfesor.gridx = 1;
@@ -143,6 +149,7 @@ public class PanelPrincipal extends JFrame {
 		
 		jcbNota = new JComboBox<Integer>();
 		GridBagConstraints gbc_jcbNota = new GridBagConstraints();
+		gbc_jcbNota.gridwidth = 2;
 		gbc_jcbNota.insets = new Insets(0, 0, 5, 0);
 		gbc_jcbNota.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jcbNota.gridx = 1;
@@ -157,10 +164,29 @@ public class PanelPrincipal extends JFrame {
 				actualizarAlumnado();
 			}
 		});
+		
+		JLabel lblNewLabel_5 = new JLabel("Fecha: ");
+		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
+		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_5.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_5.gridx = 0;
+		gbc_lblNewLabel_5.gridy = 3;
+		panel.add(lblNewLabel_5, gbc_lblNewLabel_5);
+		
+		
+		GridBagConstraints gbc_jftfFecha = new GridBagConstraints();
+		gbc_jftfFecha.insets = new Insets(0, 0, 5, 5);
+		gbc_jftfFecha.fill = GridBagConstraints.HORIZONTAL;
+		gbc_jftfFecha.gridx = 1;
+		gbc_jftfFecha.gridy = 3;
+		panel.add(getJFormattedTextFieldDatePersonalizado(), gbc_jftfFecha);
+		
+		
 		GridBagConstraints gbc_btnActualizarAlumnado = new GridBagConstraints();
 		gbc_btnActualizarAlumnado.anchor = GridBagConstraints.EAST;
-		gbc_btnActualizarAlumnado.gridx = 1;
-		gbc_btnActualizarAlumnado.gridy = 3;
+		gbc_btnActualizarAlumnado.gridx = 2;
+		gbc_btnActualizarAlumnado.gridy = 4;
 		panel.add(btnActualizarAlumnado, gbc_btnActualizarAlumnado);
 		
 		JPanel panel_1 = new JPanel();
@@ -279,7 +305,7 @@ public class PanelPrincipal extends JFrame {
 		JButton btnSave = new JButton("Guardar las notas de los alumnos seleccionados");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				saveValoracionMateria();
 			}
 		});
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();
@@ -290,6 +316,38 @@ public class PanelPrincipal extends JFrame {
 		cargaTodasLasmaterias();
 		cargarTodosLosProfesores();
 		cargarTodasLasNotas();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private JFormattedTextField getJFormattedTextFieldDatePersonalizado() {
+		jftfFecha = new JFormattedTextField(
+				new JFormattedTextField.AbstractFormatter() {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+			@Override
+			public String valueToString(Object value) throws ParseException {
+				if (value != null && value instanceof Date) {
+					return sdf.format(((Date) value));
+				}
+				return "";
+			}
+
+			@Override
+			public Object stringToValue(String text) throws ParseException {
+				try {
+					return sdf.parse(text);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Error en la fecha");
+					return null;
+				}
+			}
+		});
+		jftfFecha.setColumns(20);
+		jftfFecha.setValue(new Date());
+		return jftfFecha;
 	}
 	
 	/**
@@ -324,7 +382,6 @@ public class PanelPrincipal extends JFrame {
 		for (int i = 0; i <= 10; i++) {
 			jcbNota.addItem(i);
 		}
-		
 	}
 	
 	/**
@@ -336,6 +393,10 @@ public class PanelPrincipal extends JFrame {
 		profesorSelecionado = (Profesor) jcbProfesor.getSelectedItem();
 		notaSelecionada = (Integer) jcbNota.getSelectedItem();
 
+		listModelAlumnadoSeleccionado.removeAllElements();
+		listModelAlumnadoNoSeleccionado.removeAllElements();
+		
+		
 		for(Estudiante e : estudiantes) {
 			
 			if(ControladorValoracionMateria.getInsctance().existeEstudianteConValoracion(
@@ -360,10 +421,8 @@ public class PanelPrincipal extends JFrame {
 				
 				listModelAlumnadoNoSeleccionado.addElement(listModelAlumnadoSeleccionado.getElementAt(i));
 			}
-			 
 			 listModelAlumnadoSeleccionado.clear();
 		 }
-		
 	}
 	
 	/**
@@ -376,8 +435,7 @@ public class PanelPrincipal extends JFrame {
 			for(int i = 0; i < listModelAlumnadoNoSeleccionado.getSize(); i++) {
 				
 				listModelAlumnadoSeleccionado.addElement(listModelAlumnadoNoSeleccionado.getElementAt(i));
-			}
-			 
+			} 
 			 listModelAlumnadoNoSeleccionado.clear();
 		 }
 	}
@@ -419,21 +477,23 @@ public class PanelPrincipal extends JFrame {
 	}
 	
 	/**
-	 * 
+	 * Revisa las listas de alumnos seleccionados, cambiando la nota a los alumnos con una valoracion diferente, y
+	 * insertando una nueva valoracion para los alumnos que no la tienen. Y la lista de alumnos NO seleccionados, borrando
+	 * aquellas entradas de valoracion con la nota seleccionada.
 	 */
 	private void saveValoracionMateria () {
 		
 		ControladorValoracionMateria cvm = ControladorValoracionMateria.getInsctance();
 		
+		// Tratamos la lista de "alumnos seleccionados"
 		if(!listModelAlumnadoSeleccionado.isEmpty()) {
-			
 			for(int i = 0; i < listModelAlumnadoSeleccionado.getSize(); i++) {
 				
 				Estudiante estudianteSeleccionado = listModelAlumnadoSeleccionado.getElementAt(i);
 				ValoracionMateria valoracion = cvm.estudianteValoracion(materiaSeleccionada, profesorSelecionado, estudianteSeleccionado);
 
-				
 				if (valoracion != null){
+					valoracion.setValoracion(notaSelecionada);
 					cvm.updateEntidad(valoracion);
 				}
 				else {
@@ -443,36 +503,27 @@ public class PanelPrincipal extends JFrame {
 					nuevaValoracion.setMateria(materiaSeleccionada);
 					nuevaValoracion.setProfesor(profesorSelecionado);
 					nuevaValoracion.setValoracion(notaSelecionada);
+					nuevaValoracion.setFecha((Date) jftfFecha.getValue());
 					
-					cvm.insertEntidad(valoracion);
+					cvm.insertEntidad(nuevaValoracion);
 				}
 			}
-			
-			if(!listModelAlumnadoNoSeleccionado.isEmpty()) {
-				
-				for(int i = listModelAlumnadoNoSeleccionado.getSize(); i >= 0; i--) {
-					
-					Estudiante estudianteSeleccionado = listModelAlumnadoSeleccionado.getElementAt(i);
-					
-					if(cvm.estudianteValoracion(materiaSeleccionada, profesorSelecionado, estudianteSeleccionado) != null) {
-						
-						ValoracionMateria valoracion = cvm.estudianteValoracion(materiaSeleccionada, profesorSelecionado, estudianteSeleccionado);
-						cvm.deleteEntidad(valoracion);
-					}
-					
-					
-				}
-				
-				
-			}
-			
 		}
-		
+			
+		// Tratamos la lista de "alumnos NO seleccionado"
+		if(!listModelAlumnadoNoSeleccionado.isEmpty()) {
+			for(int i = listModelAlumnadoNoSeleccionado.getSize() - 1; i >= 0; i--) {
+				
+				Estudiante estudianteSeleccionado = listModelAlumnadoNoSeleccionado.getElementAt(i);
+				ValoracionMateria valoracion = cvm.estudianteValoracion(materiaSeleccionada, profesorSelecionado, estudianteSeleccionado);
+				
+				if(valoracion != null && valoracion.getValoracion() == notaSelecionada) {
+					cvm.deleteEntidad(valoracion);
+				}
+			}
+		}
+		JOptionPane.showMessageDialog(null, "Base de datos actualizada.");
 	}
-	
-	
-	
-	
 	
 
 }

@@ -65,8 +65,6 @@ public class SuperControladorJPA {
 		em.getTransaction().begin();
 		em.remove(e);
 		em.getTransaction().commit();
-		
-		em.close();
 	}
 	
 	/**
@@ -78,8 +76,6 @@ public class SuperControladorJPA {
 		em.getTransaction().begin();
 		em.persist(e);
 		em.getTransaction().commit();
-		
-		em.close();
 	}
 	
 }
