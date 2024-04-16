@@ -48,11 +48,38 @@ public class SuperControladorJPA {
 	 * 
 	 * @param e
 	 */
-	protected void update (Entidad e) {
+	public void updateEntidad (Entidad e) {
 		EntityManager em = getEntityManager();
 		
 		em.getTransaction().begin();
 		em.merge(e);
 		em.getTransaction().commit();
 	}
+	
+	/**
+	 * 
+	 */
+	public void deleteEntidad (Entidad e) {
+		EntityManager em = getEntityManager();
+		
+		em.getTransaction().begin();
+		em.remove(e);
+		em.getTransaction().commit();
+		
+		em.close();
+	}
+	
+	/**
+	 * 
+	 */
+	public void insertEntidad (Entidad e) {
+		EntityManager em = getEntityManager();
+		
+		em.getTransaction().begin();
+		em.persist(e);
+		em.getTransaction().commit();
+		
+		em.close();
+	}
+	
 }

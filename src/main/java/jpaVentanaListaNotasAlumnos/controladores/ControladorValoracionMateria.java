@@ -49,4 +49,26 @@ private static ControladorValoracionMateria instance = null;
 	}
 	
 	
+	/*
+	 * 
+	 */
+	public ValoracionMateria estudianteValoracion(Materia materia, Profesor profesor, Estudiante estudiante) {
+		
+		EntityManager em = getEntityManager();
+		Query q = em.createNativeQuery("SELECT * FROM valoracionmateria where idMateria = " + materia.getId() + 
+				" and idProfesor = " + profesor.getId() + " and idEstudiante = " + 
+				estudiante.getId(), ValoracionMateria.class);
+		
+		List<ValoracionMateria> v = q.getResultList();
+		
+		if(v.isEmpty()) return null;
+		
+		return v.get(0);
+	}
+
+	
+
+	
+	
+	
 }

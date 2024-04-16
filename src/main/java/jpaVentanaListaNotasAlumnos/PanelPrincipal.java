@@ -16,6 +16,7 @@ import jpaVentanaListaNotasAlumnos.controladores.ControladorValoracionMateria;
 import jpaVentanaListaNotasAlumnos.entities.Estudiante;
 import jpaVentanaListaNotasAlumnos.entities.Materia;
 import jpaVentanaListaNotasAlumnos.entities.Profesor;
+import jpaVentanaListaNotasAlumnos.entities.ValoracionMateria;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -34,6 +35,13 @@ import java.awt.event.ActionEvent;
 public class PanelPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	private List<Estudiante> estudiantes = (List<Estudiante>) ControladorEstudiante.getInstance().findAll();
+	
+	private Materia materiaSeleccionada;
+	private Profesor profesorSelecionado;
+	private int notaSelecionada;
+	
 	private JPanel contentPane;
 	private JComboBox<Materia> jcbMateria;
 	private JComboBox<Profesor> jcbProfesor;
@@ -42,6 +50,7 @@ public class PanelPrincipal extends JFrame {
 	private	DefaultListModel<Estudiante> listModelAlumnadoNoSeleccionado = new DefaultListModel<Estudiante>();
 	private JList<Estudiante> jlistAlumnadoSeleccionado;
 	private DefaultListModel<Estudiante> listModelAlumnadoSeleccionado = new DefaultListModel<Estudiante>();
+	
 	
 	
 	
@@ -265,11 +274,18 @@ public class PanelPrincipal extends JFrame {
 		gbc_jlistAlumnadoSeleccionado.gridy = 1;
 		panel_1.add(jlistAlumnadoSeleccionado, gbc_jlistAlumnadoSeleccionado);
 		
-		JButton btnNewButton = new JButton("Guardar las notas de los alumnos seleccionados");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 2;
-		contentPane.add(btnNewButton, gbc_btnNewButton);
+		
+		/// BTN SAVE
+		JButton btnSave = new JButton("Guardar las notas de los alumnos seleccionados");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		GridBagConstraints gbc_btnSave = new GridBagConstraints();
+		gbc_btnSave.gridx = 0;
+		gbc_btnSave.gridy = 2;
+		contentPane.add(btnSave, gbc_btnSave);
 		
 		cargaTodasLasmaterias();
 		cargarTodosLosProfesores();
@@ -316,12 +332,9 @@ public class PanelPrincipal extends JFrame {
 	 */
 	private void actualizarAlumnado() {
 		
-		Materia materiaSeleccionada = (Materia) jcbMateria.getSelectedItem();
-		Profesor profesorSelecionado = (Profesor) jcbProfesor.getSelectedItem();
-		int notaSelecionada = (Integer) jcbNota.getSelectedItem();
-		
-		List<Estudiante> estudiantes = (List<Estudiante>) ControladorEstudiante.getInstance().findAll();
-		
+		materiaSeleccionada = (Materia) jcbMateria.getSelectedItem();
+		profesorSelecionado = (Profesor) jcbProfesor.getSelectedItem();
+		notaSelecionada = (Integer) jcbNota.getSelectedItem();
 
 		for(Estudiante e : estudiantes) {
 			
@@ -336,11 +349,8 @@ public class PanelPrincipal extends JFrame {
 		}
 	}
 	
-	
-	
-	
 	/**
-	 * 
+	 * Pasa todos los valores a la lista
 	 */
 	private void allLeft() {
 		
@@ -356,9 +366,6 @@ public class PanelPrincipal extends JFrame {
 		
 	}
 	
-	
-	
-	
 	/**
 	 * 
 	 */
@@ -373,7 +380,6 @@ public class PanelPrincipal extends JFrame {
 			 
 			 listModelAlumnadoNoSeleccionado.clear();
 		 }
-		
 	}
 	
 	/**
@@ -388,12 +394,11 @@ public class PanelPrincipal extends JFrame {
 				this.listModelAlumnadoSeleccionado.addElement(listModelAlumnadoNoSeleccionado.getElementAt(
 						this.jlistAlumnadoNoSeleccionado.getSelectedIndices()[i]));
 				
-				this.listModelAlumnadoNoSeleccionado.removeElementAt(this.jlistAlumnadoNoSeleccionado.getSelectedIndices()[i]);
-				
+				this.listModelAlumnadoNoSeleccionado.removeElementAt(
+						this.jlistAlumnadoNoSeleccionado.getSelectedIndices()[i]);
 			}
 		}
 	}
-	
 	
 	/**
 	 * 
@@ -407,19 +412,63 @@ public class PanelPrincipal extends JFrame {
 				this.listModelAlumnadoNoSeleccionado.addElement(listModelAlumnadoSeleccionado.getElementAt(
 						this.jlistAlumnadoSeleccionado.getSelectedIndices()[i]));
 				
-				this.listModelAlumnadoSeleccionado.removeElementAt(this.jlistAlumnadoSeleccionado.getSelectedIndices()[i]);
-				
+				this.listModelAlumnadoSeleccionado.removeElementAt(
+						this.jlistAlumnadoSeleccionado.getSelectedIndices()[i]);
 			}
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 
+	 */
+	private void saveValoracionMateria () {
+		
+		ControladorValoracionMateria cvm = ControladorValoracionMateria.getInsctance();
+		
+		if(!listModelAlumnadoSeleccionado.isEmpty()) {
+			
+			for(int i = 0; i < listModelAlumnadoSeleccionado.getSize(); i++) {
+				
+				Estudiante estudianteSeleccionado = listModelAlumnadoSeleccionado.getElementAt(i);
+				ValoracionMateria valoracion = cvm.estudianteValoracion(materiaSeleccionada, profesorSelecionado, estudianteSeleccionado);
+
+				
+				if (valoracion != null){
+					cvm.updateEntidad(valoracion);
+				}
+				else {
+				
+					ValoracionMateria nuevaValoracion = new ValoracionMateria();
+					nuevaValoracion.setEstudiante(estudianteSeleccionado);
+					nuevaValoracion.setMateria(materiaSeleccionada);
+					nuevaValoracion.setProfesor(profesorSelecionado);
+					nuevaValoracion.setValoracion(notaSelecionada);
+					
+					cvm.insertEntidad(valoracion);
+				}
+			}
+			
+			if(!listModelAlumnadoNoSeleccionado.isEmpty()) {
+				
+				for(int i = listModelAlumnadoNoSeleccionado.getSize(); i >= 0; i--) {
+					
+					Estudiante estudianteSeleccionado = listModelAlumnadoSeleccionado.getElementAt(i);
+					
+					if(cvm.estudianteValoracion(materiaSeleccionada, profesorSelecionado, estudianteSeleccionado) != null) {
+						
+						ValoracionMateria valoracion = cvm.estudianteValoracion(materiaSeleccionada, profesorSelecionado, estudianteSeleccionado);
+						cvm.deleteEntidad(valoracion);
+					}
+					
+					
+				}
+				
+				
+			}
+			
+		}
+		
+	}
 	
 	
 	
