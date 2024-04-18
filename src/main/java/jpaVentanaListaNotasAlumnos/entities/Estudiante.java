@@ -1,6 +1,5 @@
 package jpaVentanaListaNotasAlumnos.entities;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -43,16 +42,14 @@ public class Estudiante extends Entidad {
 	
 	// GETTERS & SETTERS
 	
-	public int getId() {
-		return id;
-	}
-
 	@Override
 	public String toString() {
 		return nombre + " " + apellido1 + " " + apellido2;
 	}
-
-
+	
+	public int getId() {
+		return id;
+	}
 
 	public void setId(int id) {
 		this.id = id;

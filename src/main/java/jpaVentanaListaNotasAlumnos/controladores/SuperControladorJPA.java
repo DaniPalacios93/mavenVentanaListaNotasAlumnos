@@ -11,7 +11,7 @@ import jpaVentanaListaNotasAlumnos.entities.Entidad;
 
 public class SuperControladorJPA {
 	
-	private static EntityManager em = null;
+	private EntityManager em = null;
 	private String nombreTabla ="";
 	private Class tipoEntidad;
 
